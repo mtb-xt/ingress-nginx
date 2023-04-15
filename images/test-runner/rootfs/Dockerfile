@@ -63,7 +63,7 @@ RUN apk update && apk upgrade && apk add --no-cache \
   py-crcmod \
   py-pip \
   unzip \
-  openssl \
+  openssl1.1-compat \
   cfssl@testing \
   curl \
   tzdata \

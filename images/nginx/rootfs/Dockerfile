@@ -36,7 +36,7 @@ RUN apk update \
   && apk upgrade \
   && apk add -U --no-cache \
   bash \
-  openssl \
+  openssl1.1-compat \
   pcre \
   zlib \
   geoip \
