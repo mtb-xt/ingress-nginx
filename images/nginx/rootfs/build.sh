@@ -165,7 +165,7 @@ apk add \
   libc-dev \
   make \
   automake \
-  openssl-dev \
+  openssl1.1-compat-dev \
   pcre-dev \
   zlib-dev \
   linux-headers \
@@ -181,7 +181,7 @@ apk add \
   ca-certificates \
   patch \
   libaio-dev \
-  openssl \
+  openssl1.1-compat \
   cmake \
   util-linux \
   lmdb-tools \
