@@ -49,7 +49,7 @@ RUN apk update \
   && apk upgrade \
   && apk add -U --no-cache \
      bash \
-     openssl1.1-compat \
+     openssl \
      curl \
      ca-certificates \
      dumb-init \

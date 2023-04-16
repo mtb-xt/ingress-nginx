@@ -165,7 +165,7 @@ apk add \
   libc-dev \
   make \
   automake \
-  openssl1.1-compat-dev \
+  openssl-dev \
   pcre-dev \
   zlib-dev \
   linux-headers \
@@ -181,7 +181,7 @@ apk add \
   ca-certificates \
   patch \
   libaio-dev \
-  openssl1.1-compat \
+  openssl \
   cmake \
   util-linux \
   lmdb-tools \
@@ -195,7 +195,8 @@ apk add \
   unzip \
   dos2unix \
   yaml-cpp \
-  coreutils
+  coreutils \
+  json-c-dev # e_akv dependency
 
 mkdir -p /etc/nginx
 
@@ -329,6 +330,9 @@ get_src 0fb790e394510e73fdba1492e576aaec0b8ee9ef08e3e821ce253a07719cf7ea \
 get_src d74f86ada2329016068bc5a243268f1f555edd620b6a7d6ce89295e7d6cf18da \
         "https://github.com/microsoft/mimalloc/archive/refs/tags/v${MIMALOC_VERSION}.tar.gz"
 
+get_src 66c66e107ab6d790a72fc3738cdc85d68805b34bdc72e60bd9a0057d3e68a1dd \
+        "https://github.com/microsoft/AzureKeyVaultManagedHSMEngine/archive/refs/heads/main.tar.gz"
+
 # improve compilation times
 CORES=$(($(grep -c ^processor /proc/cpuinfo) - 1))
 
@@ -353,6 +357,21 @@ cd "$BUILD_PATH"
 
 # Git tuning
 git config --global --add core.compression -1
+
+# build akv engine
+echo "=================================  E_AKV START ====================================="
+cd "$BUILD_PATH/AzureKeyVaultManagedHSMEngine-main/src"
+mkdir build
+cd build
+cmake ..
+make
+ls -lA e_akv.so
+ls -lA /usr/lib/engines-1.1
+mkdir -p /usr/lib/x86_64-linux-gnu/engines-1.1/
+cp e_akv.so /usr/lib/x86_64-linux-gnu/engines-1.1/e_akv.so
+cp e_akv.so /usr/lib/engines-1.1/e_akv.so
+openssl engine -vvv -t e_akv
+echo "=================================  E_AKV done ====================================="
 
 # build opentracing lib
 cd "$BUILD_PATH/opentracing-cpp-$OPENTRACING_CPP_VERSION"

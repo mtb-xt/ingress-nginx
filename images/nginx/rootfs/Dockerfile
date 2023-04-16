@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-FROM alpine:3.17.2 as builder
+FROM alpine:3.16 as builder
 
 COPY . /
 
@@ -21,7 +21,7 @@ RUN apk update \
   && /build.sh
 
 # Use a multi-stage build
-FROM alpine:3.17.2
+FROM alpine:3.16
 
 ENV PATH=$PATH:/usr/local/luajit/bin:/usr/local/nginx/sbin:/usr/local/nginx/bin
 
@@ -36,7 +36,7 @@ RUN apk update \
   && apk upgrade \
   && apk add -U --no-cache \
   bash \
-  openssl1.1-compat \
+  openssl \
   pcre \
   zlib \
   geoip \
